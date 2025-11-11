@@ -1,6 +1,14 @@
 # Dockerfile para la API de Control de Vehículos
 FROM node:20-alpine
 
+# Metadata labels
+LABEL org.opencontainers.image.title="Vehicle Control API"
+LABEL org.opencontainers.image.description="REST API for vehicle control and management with PostgreSQL"
+LABEL org.opencontainers.image.authors="JuanMM94"
+LABEL org.opencontainers.image.source="https://github.com/JuanMM94/vehiculo-control-api"
+LABEL org.opencontainers.image.documentation="https://github.com/JuanMM94/vehiculo-control-api#readme"
+LABEL org.opencontainers.image.url="https://hub.docker.com/r/juanmartinm/vehiculo-control-api"
+
 # Variables de entorno para build
 ENV NODE_ENV=production
 
