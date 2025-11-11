@@ -32,7 +32,7 @@ describe('Integration Tests - Autenticación', () => {
         .post('/api/usuarios/register')
         .send(testUser);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(409);
     });
 
     it('debe rechazar registro sin campos requeridos', async () => {
