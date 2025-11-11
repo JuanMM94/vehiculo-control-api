@@ -1,9 +1,5 @@
 import { Mantenimiento, Vehiculo, EstadoVehiculo } from '../models/index.js';
 
-/**
- * Repositorio para operaciones de acceso a datos de Mantenimientos
- * Patrón Repository - separa la lógica de acceso a datos
- */
 class MantenimientoRepository {
   async findAll(options = {}) {
     return await Mantenimiento.findAll({

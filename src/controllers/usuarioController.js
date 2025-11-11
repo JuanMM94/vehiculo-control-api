@@ -1,26 +1,16 @@
 import { Usuario } from '../models/index.js';
 import { hashPassword, comparePassword, generateToken } from '../utils/auth.js';
 
-/**
- * Controlador de Usuarios
- * Maneja autenticación y gestión de usuarios
- */
-
-/**
- * Registrar nuevo usuario
- */
 export const registrar = async (req, res, next) => {
   try {
     const { nombre, email, password, rol } = req.body;
 
-    // Validar campos requeridos
     if (!nombre || !email || !password) {
       return res.status(400).json({
         error: 'Nombre, email y password son requeridos',
       });
     }
 
-    // Verificar si el email ya existe
     const usuarioExistente = await Usuario.findOne({ where: { email } });
 
     if (usuarioExistente) {
@@ -29,10 +19,8 @@ export const registrar = async (req, res, next) => {
       });
     }
 
-    // Hashear la contraseña
     const hashedPassword = await hashPassword(password);
 
-    // Crear el usuario
     const usuario = await Usuario.create({
       nombre,
       email,
@@ -40,7 +28,6 @@ export const registrar = async (req, res, next) => {
       rol: rol || 'Operador',
     });
 
-    // Generar token
     const token = generateToken({
       id: usuario.id,
       email: usuario.email,
@@ -62,21 +49,16 @@ export const registrar = async (req, res, next) => {
   }
 };
 
-/**
- * Iniciar sesión
- */
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Validar campos requeridos
     if (!email || !password) {
       return res.status(400).json({
         error: 'Email y password son requeridos',
       });
     }
 
-    // Buscar usuario por email
     const usuario = await Usuario.findOne({ where: { email } });
 
     if (!usuario) {
@@ -85,7 +67,6 @@ export const login = async (req, res, next) => {
       });
     }
 
-    // Verificar contraseña
     const passwordValido = await comparePassword(password, usuario.password);
 
     if (!passwordValido) {
@@ -94,7 +75,6 @@ export const login = async (req, res, next) => {
       });
     }
 
-    // Generar token
     const token = generateToken({
       id: usuario.id,
       email: usuario.email,
@@ -116,9 +96,6 @@ export const login = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener todos los usuarios (solo administradores)
- */
 export const obtenerTodos = async (req, res, next) => {
   try {
     const usuarios = await Usuario.findAll({
@@ -131,9 +108,6 @@ export const obtenerTodos = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener usuario por ID
- */
 export const obtenerPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -154,9 +128,6 @@ export const obtenerPorId = async (req, res, next) => {
   }
 };
 
-/**
- * Actualizar usuario
- */
 export const actualizar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -170,14 +141,12 @@ export const actualizar = async (req, res, next) => {
       });
     }
 
-    // Preparar datos de actualización
     const datosActualizacion = {
       nombre: nombre || usuario.nombre,
       email: email || usuario.email,
       rol: rol || usuario.rol,
     };
 
-    // Si se proporciona una nueva contraseña, hashearla
     if (password) {
       datosActualizacion.password = await hashPassword(password);
     }
@@ -198,9 +167,6 @@ export const actualizar = async (req, res, next) => {
   }
 };
 
-/**
- * Eliminar usuario
- */
 export const eliminar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -223,9 +189,6 @@ export const eliminar = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener perfil del usuario autenticado
- */
 export const obtenerPerfil = async (req, res, next) => {
   try {
     const usuario = await Usuario.findByPk(req.user.id, {

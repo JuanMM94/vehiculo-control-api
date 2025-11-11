@@ -22,7 +22,6 @@ const Mantenimiento = sequelize.define('Mantenimiento', {
       model: 'estados_vehiculo',
       key: 'id',
     },
-    comment: 'Relación con el registro de estado que marca el inicio del mantenimiento',
   },
   fechaInicio: {
     type: DataTypes.DATE,

@@ -6,11 +6,6 @@ import estadoVehiculoRoutes from './estadoVehiculoRoutes.js';
 
 const router = Router();
 
-/**
- * Rutas principales de la API
- */
-
-// Ruta de bienvenida/health check
 router.get('/', (req, res) => {
   res.json({
     mensaje: 'API de Control de Vehículos',
@@ -25,7 +20,6 @@ router.get('/', (req, res) => {
   });
 });
 
-// Montar rutas
 router.use('/usuarios', usuarioRoutes);
 router.use('/vehiculos', vehiculoRoutes);
 router.use('/mantenimientos', mantenimientoRoutes);

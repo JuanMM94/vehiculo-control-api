@@ -1,9 +1,5 @@
 import { Vehiculo, EstadoVehiculo } from '../models/index.js';
 
-/**
- * Repositorio para operaciones de acceso a datos de Vehículos
- * Patrón Repository - separa la lógica de acceso a datos
- */
 class VehiculoRepository {
   async findAll(options = {}) {
     return await Vehiculo.findAll({
@@ -63,7 +59,6 @@ class VehiculoRepository {
 
     await vehiculo.update({ estadoActual: nuevoEstado });
 
-    // Registrar el cambio en el historial
     await EstadoVehiculo.create({
       vehiculoId: id,
       estado: nuevoEstado,

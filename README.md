@@ -23,16 +23,14 @@ API REST que permite llevar adelante el control del estado de los vehículos, im
 
 ## Tecnologías Utilizadas
 
-| Tecnología | Versión | Propósito |
-|------------|---------|-----------|
-| Node.js | 20.x | Runtime de JavaScript |
-| Express.js | 5.x | Framework web para APIs REST |
-| PostgreSQL | 16.x | Base de datos relacional |
-| Sequelize | 6.x | ORM para PostgreSQL |
-| JWT | 9.x | Autenticación y autorización |
-| bcryptjs | 3.x | Encriptación de contraseñas |
-| Jest | 30.x | Testing unitario e integración |
-| Docker | - | Containerización y despliegue |
+- Node.js
+- Express.js
+- PostgreSQL
+- Sequelize
+- JWT
+- bcryptjs
+- Jest
+- Docker
 
 ## Arquitectura
 
@@ -58,26 +56,6 @@ El proyecto implementa **Dependency Injection** en la capa de servicios:
 - **ServiceContainer**: Contenedor que gestiona la creación e inyección de dependencias
 
 ## Modelo de Datos
-
-### Diagrama de Relaciones
-
-```
-Usuario (1) ----gestiona----> (*) Vehiculo
-                                    |
-                                    | (1)
-                                    |
-                                    v (*)
-                              EstadoVehiculo
-                                    ^
-                                    | (1)
-                                    |
-Mantenimiento (*)----------asociado---
-       |
-       | (*)
-       |
-       v (1)
-    Vehiculo
-```
 
 ### Entidades
 
@@ -423,90 +401,3 @@ Según el plan de trabajo:
 3. **Mantenimiento de vehículos en uso**: No se puede iniciar mantenimiento en un vehículo que está "En uso"
 4. **Fechas de mantenimiento**: La fecha de fin debe ser posterior a la fecha de inicio
 
-## Scripts Disponibles
-
-```json
-{
-  "start": "node src/index.js",           // Iniciar en producción
-  "dev": "nodemon src/index.js",          // Desarrollo con hot-reload
-  "test": "jest",                         // Ejecutar tests
-  "test:watch": "jest --watch",           // Tests en modo watch
-  "lint": "eslint .",                     // Linting
-  "lint:fix": "eslint . --fix"            // Fix linting automático
-}
-```
-
-## Estructura de Respuestas
-
-### Éxito
-```json
-{
-  "mensaje": "Operación exitosa",
-  "data": { ... }
-}
-```
-
-### Error
-```json
-{
-  "error": "Descripción del error"
-}
-```
-
-### Error de Validación
-```json
-{
-  "error": "Error de validación",
-  "detalles": [
-    {
-      "campo": "email",
-      "mensaje": "El email ya está en uso"
-    }
-  ]
-}
-```
-
-## Decisiones Técnicas
-
-### ¿Por qué JavaScript ES6+ en lugar de TypeScript?
-- Implementación más rápida para MVP
-- Menor complejidad de configuración
-- Suficiente para demostrar patrones de diseño (OOP, DI)
-- Uso de JSDoc para documentación de tipos cuando es necesario
-
-### ¿Por qué Sequelize?
-- ORM maduro y estable
-- Excelente integración con PostgreSQL
-- Facilita el modelo de objetos
-- Migraciones y seeders incluidos
-
-### ¿Por qué Service Repository Pattern?
-- Separa la lógica de negocio del acceso a datos
-- Facilita el testing con mocks
-- Permite implementar DI de forma clara
-- Cumple con principios SOLID
-
-## Próximos Pasos / Mejoras Futuras
-
-- [ ] Implementar sistema de notificaciones
-- [ ] Agregar endpoints de reportes y estadísticas
-- [ ] Implementar paginación en listados
-- [ ] Agregar más tests de integración
-- [ ] Documentación con Swagger/OpenAPI
-- [ ] Implementar rate limiting
-- [ ] Agregar logs estructurados
-- [ ] CI/CD con GitHub Actions
-
-## Problemas Conocidos
-
-Ninguno reportado actualmente.
-
-## Soporte
-
-Para dudas o problemas, contactar a:
-- Email: [tu-email]
-- Legajo: 0133587
-
-## Licencia
-
-ISC - Proyecto académico para Técnicas Avanzadas de Programación

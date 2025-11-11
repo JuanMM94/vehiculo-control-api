@@ -1,13 +1,8 @@
 import { verifyToken } from '../utils/auth.js';
 import { Usuario } from '../models/index.js';
 
-/**
- * Middleware de autenticación JWT
- * Verifica que el usuario esté autenticado
- */
 export const authenticate = async (req, res, next) => {
   try {
-    // Obtener token del header Authorization
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -16,12 +11,10 @@ export const authenticate = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.substring(7); // Remover "Bearer "
+    const token = authHeader.substring(7);
 
-    // Verificar y decodificar el token
     const decoded = verifyToken(token);
 
-    // Buscar el usuario en la base de datos
     const usuario = await Usuario.findByPk(decoded.id);
 
     if (!usuario) {
@@ -30,7 +23,6 @@ export const authenticate = async (req, res, next) => {
       });
     }
 
-    // Agregar usuario al request para usarlo en los controladores
     req.user = {
       id: usuario.id,
       nombre: usuario.nombre,
@@ -46,11 +38,6 @@ export const authenticate = async (req, res, next) => {
   }
 };
 
-/**
- * Middleware de autorización por rol
- * Verifica que el usuario tenga el rol requerido
- * @param {...string} rolesPermitidos - Roles que pueden acceder
- */
 export const authorize = (...rolesPermitidos) => {
   return (req, res, next) => {
     if (!req.user) {

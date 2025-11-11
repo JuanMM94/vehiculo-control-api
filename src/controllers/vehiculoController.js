@@ -2,14 +2,6 @@ import serviceContainer from '../services/ServiceContainer.js';
 
 const vehiculoService = serviceContainer.getVehiculoService();
 
-/**
- * Controlador de Vehículos
- * Utiliza el servicio inyectado desde el contenedor de dependencias
- */
-
-/**
- * Obtener todos los vehículos
- */
 export const obtenerTodos = async (req, res, next) => {
   try {
     const incluirHistorial = req.query.incluirHistorial === 'true';
@@ -21,9 +13,6 @@ export const obtenerTodos = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener vehículo por ID
- */
 export const obtenerPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -40,14 +29,10 @@ export const obtenerPorId = async (req, res, next) => {
   }
 };
 
-/**
- * Crear nuevo vehículo
- */
 export const crear = async (req, res, next) => {
   try {
     const { patente, marca, modelo, año, estadoActual } = req.body;
 
-    // Validar campos requeridos
     if (!patente || !marca || !modelo || !año) {
       return res.status(400).json({
         error: 'Patente, marca, modelo y año son requeridos',
@@ -74,9 +59,6 @@ export const crear = async (req, res, next) => {
   }
 };
 
-/**
- * Actualizar vehículo
- */
 export const actualizar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -101,9 +83,6 @@ export const actualizar = async (req, res, next) => {
   }
 };
 
-/**
- * Eliminar vehículo
- */
 export const eliminar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -121,9 +100,6 @@ export const eliminar = async (req, res, next) => {
   }
 };
 
-/**
- * Cambiar estado de un vehículo
- */
 export const cambiarEstado = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -159,9 +135,6 @@ export const cambiarEstado = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener vehículos por estado
- */
 export const obtenerPorEstado = async (req, res, next) => {
   try {
     const { estado } = req.params;

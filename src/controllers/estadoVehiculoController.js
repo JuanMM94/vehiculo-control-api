@@ -1,12 +1,5 @@
 import { EstadoVehiculo, Vehiculo } from '../models/index.js';
 
-/**
- * Controlador de Estado de Vehículos (Historial)
- */
-
-/**
- * Obtener todo el historial de estados
- */
 export const obtenerTodos = async (req, res, next) => {
   try {
     const estados = await EstadoVehiculo.findAll({
@@ -26,14 +19,10 @@ export const obtenerTodos = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener historial de estados de un vehículo específico
- */
 export const obtenerPorVehiculo = async (req, res, next) => {
   try {
     const { vehiculoId } = req.params;
 
-    // Verificar que el vehículo existe
     const vehiculo = await Vehiculo.findByPk(vehiculoId);
 
     if (!vehiculo) {
@@ -53,9 +42,6 @@ export const obtenerPorVehiculo = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener un estado específico por ID
- */
 export const obtenerPorId = async (req, res, next) => {
   try {
     const { id } = req.params;

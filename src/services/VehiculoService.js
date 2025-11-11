@@ -1,12 +1,4 @@
-/**
- * Servicio de lógica de negocio para Vehículos
- * Implementa Dependency Injection - recibe el repositorio como dependencia
- */
 class VehiculoService {
-  /**
-   * Constructor con inyección de dependencias
-   * @param {VehiculoRepository} vehiculoRepository - Repositorio inyectado
-   */
   constructor(vehiculoRepository) {
     this.vehiculoRepository = vehiculoRepository;
   }
@@ -30,7 +22,6 @@ class VehiculoService {
   }
 
   async crear(vehiculoData) {
-    // Validar que no exista un vehículo con la misma patente
     const vehiculoExistente = await this.vehiculoRepository.findByPatente(vehiculoData.patente);
 
     if (vehiculoExistente) {
@@ -39,7 +30,6 @@ class VehiculoService {
 
     const vehiculo = await this.vehiculoRepository.create(vehiculoData);
 
-    // Crear el primer registro de estado
     await this.vehiculoRepository.updateEstado(
       vehiculo.id,
       vehiculoData.estadoActual || 'Disponible',
@@ -76,7 +66,6 @@ class VehiculoService {
       throw new Error('Vehículo no encontrado');
     }
 
-    // Validación: un vehículo no puede estar "En uso" y "En mantenimiento" al mismo tiempo
     if (vehiculo.estadoActual === 'En uso' && nuevoEstado === 'En mantenimiento') {
       throw new Error('No se puede poner en mantenimiento un vehículo que está en uso. Primero márquelo como disponible.');
     }

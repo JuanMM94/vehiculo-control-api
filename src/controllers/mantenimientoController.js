@@ -2,14 +2,6 @@ import serviceContainer from '../services/ServiceContainer.js';
 
 const mantenimientoService = serviceContainer.getMantenimientoService();
 
-/**
- * Controlador de Mantenimientos
- * Utiliza el servicio inyectado desde el contenedor de dependencias
- */
-
-/**
- * Obtener todos los mantenimientos
- */
 export const obtenerTodos = async (req, res, next) => {
   try {
     const mantenimientos = await mantenimientoService.obtenerTodos();
@@ -20,9 +12,6 @@ export const obtenerTodos = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener mantenimiento por ID
- */
 export const obtenerPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -38,9 +27,6 @@ export const obtenerPorId = async (req, res, next) => {
   }
 };
 
-/**
- * Obtener mantenimientos de un vehículo
- */
 export const obtenerPorVehiculo = async (req, res, next) => {
   try {
     const { vehiculoId } = req.params;
@@ -56,14 +42,10 @@ export const obtenerPorVehiculo = async (req, res, next) => {
   }
 };
 
-/**
- * Crear nuevo mantenimiento
- */
 export const crear = async (req, res, next) => {
   try {
     const { vehiculoId, fechaInicio, descripcion, costo } = req.body;
 
-    // Validar campos requeridos
     if (!vehiculoId || !descripcion) {
       return res.status(400).json({
         error: 'VehiculoId y descripcion son requeridos',
@@ -92,9 +74,6 @@ export const crear = async (req, res, next) => {
   }
 };
 
-/**
- * Actualizar mantenimiento
- */
 export const actualizar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -118,9 +97,6 @@ export const actualizar = async (req, res, next) => {
   }
 };
 
-/**
- * Eliminar mantenimiento
- */
 export const eliminar = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -138,9 +114,6 @@ export const eliminar = async (req, res, next) => {
   }
 };
 
-/**
- * Finalizar mantenimiento
- */
 export const finalizar = async (req, res, next) => {
   try {
     const { id } = req.params;
