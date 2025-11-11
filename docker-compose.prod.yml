@@ -1,0 +1,50 @@
+services:
+  # Servicio de PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: vehiculo-control-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vehiculo_control
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vehiculo-network
+
+  # Servicio de la API
+  api:
+    image: juanmartinm/vehiculo-control-api:latest
+    container_name: vehiculo-control-api
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: vehiculo_control
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: 4489c179d30f31b0ca660b17c6d83b1861887cf3bbac3447e3a999e87d8ff4c6
+      JWT_EXPIRES_IN: 24h
+      CORS_ORIGIN: "*"
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vehiculo-network
+
+volumes:
+  postgres_data:
+
+networks:
+  vehiculo-network:
+    driver: bridge

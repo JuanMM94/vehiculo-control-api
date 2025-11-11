@@ -100,22 +100,23 @@ El proyecto implementa **Dependency Injection** en la capa de servicios:
 - Docker y Docker Compose (recomendado)
 - PostgreSQL 16.x (si no usas Docker)
 
-### Opción 1: Con Docker (Recomendado)
+### Opción 1: Docker Hub (Recomendado para Producción)
 
-1. Clonar el repositorio:
+Si solo quieres ejecutar la aplicación sin clonar el repositorio:
+
+1. Descargar el archivo docker-compose:
 ```bash
-git clone <url-del-repositorio>
-cd vehiculo-control-api
+curl -O https://raw.githubusercontent.com/JuanMM94/vehiculo-control-api/main/docker-compose.prod.yml
 ```
 
-2. Iniciar con Docker Compose:
+2. Iniciar los servicios:
 ```bash
-npm run docker:up
+docker compose -f docker-compose.prod.yml up -d
 ```
 
-Esto levantará:
-- PostgreSQL en puerto 5432
-- API en puerto 3000
+Esto descargará y levantará:
+- PostgreSQL 16 en puerto 5432
+- API (última versión) en puerto 3000
 
 3. Verificar que todo funciona:
 ```bash
@@ -127,7 +128,39 @@ curl http://localhost:3000/api
 http://localhost:3000/api-docs
 ```
 
-### Opción 2: Instalación Local
+5. Para detener los servicios:
+```bash
+docker compose -f docker-compose.prod.yml down
+```
+
+### Opción 2: Con Docker (Desarrollo Local)
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/JuanMM94/vehiculo-control-api.git
+cd vehiculo-control-api
+```
+
+2. Iniciar con Docker Compose:
+```bash
+npm run docker:up
+```
+
+Esto levantará:
+- PostgreSQL en puerto 5432
+- API en puerto 3000 (con hot-reload)
+
+3. Verificar que todo funciona:
+```bash
+curl http://localhost:3000/api
+```
+
+4. Acceder a Swagger UI:
+```
+http://localhost:3000/api-docs
+```
+
+### Opción 3: Instalación Local
 
 1. Clonar el repositorio:
 ```bash
