@@ -9,9 +9,18 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
   },
-  "keywords": ["vehiculo", "control", "api", "express", "sequelize"],
+  "keywords": [
+    "vehiculo",
+    "control",
+    "api",
+    "express",
+    "sequelize"
+  ],
   "author": "Juan Martín Monasterio",
   "license": "ISC",
   "description": "Sistema de control de estado de vehículos - API REST",
@@ -25,7 +34,9 @@
     "morgan": "^1.10.1",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^9.39.1",

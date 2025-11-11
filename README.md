@@ -20,6 +20,7 @@ API REST que permite llevar adelante el control del estado de los vehículos, im
 - ✅ Validaciones de negocio
 - ✅ Testing unitario e integración
 - ✅ Dockerización
+- ✅ Documentación con Swagger/OpenAPI
 
 ## Tecnologías Utilizadas
 
@@ -31,6 +32,7 @@ API REST que permite llevar adelante el control del estado de los vehículos, im
 - bcryptjs
 - Jest
 - Docker
+- Swagger/OpenAPI
 
 ## Arquitectura
 
@@ -108,7 +110,7 @@ cd vehiculo-control-api
 
 2. Iniciar con Docker Compose:
 ```bash
-docker-compose up -d
+npm run docker:up
 ```
 
 Esto levantará:
@@ -118,6 +120,11 @@ Esto levantará:
 3. Verificar que todo funciona:
 ```bash
 curl http://localhost:3000/api
+```
+
+4. Acceder a Swagger UI:
+```
+http://localhost:3000/api-docs
 ```
 
 ### Opción 2: Instalación Local
@@ -173,6 +180,23 @@ JWT_EXPIRES_IN=24h
 CORS_ORIGIN=*
 ```
 
+## Documentación de la API
+
+La API cuenta con documentación interactiva usando Swagger/OpenAPI disponible en:
+
+```
+http://localhost:3000/api-docs
+```
+
+### Uso de Swagger UI
+
+1. Navegar a http://localhost:3000/api-docs
+2. Crear un usuario con `/api/usuarios/register`
+3. Iniciar sesión con `/api/usuarios/login` para obtener el token JWT
+4. Hacer clic en el botón **"Authorize"** (candado verde)
+5. Ingresar: `Bearer YOUR_TOKEN_HERE`
+6. Ahora puedes probar todos los endpoints protegidos
+
 ## API Endpoints
 
 ### Base URL
@@ -195,20 +219,6 @@ Content-Type: application/json
 }
 ```
 
-**Respuesta:**
-```json
-{
-  "mensaje": "Usuario registrado exitosamente",
-  "usuario": {
-    "id": "uuid",
-    "nombre": "Juan Pérez",
-    "email": "juan@example.com",
-    "rol": "Operador"
-  },
-  "token": "jwt-token"
-}
-```
-
 #### Iniciar Sesión
 ```http
 POST /api/usuarios/login
@@ -220,129 +230,28 @@ Content-Type: application/json
 }
 ```
 
-**Respuesta:**
-```json
-{
-  "mensaje": "Login exitoso",
-  "usuario": { ... },
-  "token": "jwt-token"
-}
-```
-
 ### Vehículos
 
-#### Listar Todos los Vehículos
-```http
-GET /api/vehiculos
-Authorization: Bearer {token}
-```
+Ver documentación completa en Swagger UI: http://localhost:3000/api-docs
 
-#### Obtener Vehículo por ID
-```http
-GET /api/vehiculos/:id?incluirHistorial=true
-Authorization: Bearer {token}
-```
-
-#### Crear Vehículo (Solo Administradores)
-```http
-POST /api/vehiculos
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "patente": "ABC123",
-  "marca": "Toyota",
-  "modelo": "Corolla",
-  "año": 2023,
-  "estadoActual": "Disponible"
-}
-```
-
-#### Cambiar Estado de Vehículo
-```http
-PATCH /api/vehiculos/:id/estado
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "estado": "En uso",
-  "observaciones": "Asignado a proyecto X"
-}
-```
-
-**Estados válidos:**
-- `Disponible`
-- `En uso`
-- `En mantenimiento`
-- `Dado de baja`
-
-**Validaciones:**
-- No se puede cambiar de "En uso" a "En mantenimiento" directamente
-- No se puede cambiar de "En mantenimiento" a "En uso" directamente
-- Primero debe pasar por "Disponible"
+**Principales endpoints:**
+- `GET /api/vehiculos` - Listar vehículos
+- `POST /api/vehiculos` - Crear vehículo (Admin)
+- `PATCH /api/vehiculos/:id/estado` - Cambiar estado
+- `GET /api/vehiculos/estado/:estado` - Filtrar por estado
 
 ### Mantenimientos
 
-#### Listar Mantenimientos
-```http
-GET /api/mantenimientos
-Authorization: Bearer {token}
-```
+**Principales endpoints:**
+- `GET /api/mantenimientos` - Listar mantenimientos
+- `POST /api/mantenimientos` - Crear mantenimiento
+- `PATCH /api/mantenimientos/:id/finalizar` - Finalizar mantenimiento
 
-#### Obtener Mantenimientos de un Vehículo
-```http
-GET /api/mantenimientos/vehiculo/:vehiculoId
-Authorization: Bearer {token}
-```
+### Estados (Historial)
 
-#### Crear Mantenimiento
-```http
-POST /api/mantenimientos
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "vehiculoId": "uuid-del-vehiculo",
-  "fechaInicio": "2025-01-10T10:00:00Z",
-  "descripcion": "Cambio de aceite y filtros",
-  "costo": 5000
-}
-```
-
-**Comportamiento:**
-- Crea el mantenimiento
-- Crea un registro en EstadoVehiculo asociado al mantenimiento
-- Cambia el estado del vehículo a "En mantenimiento"
-
-#### Finalizar Mantenimiento
-```http
-PATCH /api/mantenimientos/:id/finalizar
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "fechaFin": "2025-01-11T16:00:00Z",
-  "costo": 5500
-}
-```
-
-**Comportamiento:**
-- Marca el mantenimiento como finalizado
-- Cambia el estado del vehículo a "Disponible"
-
-### Historial de Estados
-
-#### Ver Todo el Historial
-```http
-GET /api/estados
-Authorization: Bearer {token}
-```
-
-#### Ver Historial de un Vehículo
-```http
-GET /api/estados/vehiculo/:vehiculoId
-Authorization: Bearer {token}
-```
+**Principales endpoints:**
+- `GET /api/estados` - Ver todo el historial
+- `GET /api/estados/vehiculo/:vehiculoId` - Historial de un vehículo
 
 ## Testing
 
@@ -377,6 +286,54 @@ Según el plan de trabajo:
 - ✅ Módulo de gestión de mantenimientos
 - ✅ Validaciones de negocio (estados incompatibles)
 
+## Comandos Docker
+
+```bash
+# Iniciar contenedores
+npm run docker:up
+
+# Detener contenedores
+npm run docker:down
+
+# Ver logs en tiempo real
+npm run docker:logs
+```
+
+## Docker Hub
+
+La imagen está disponible en Docker Hub:
+
+```bash
+docker pull <DOCKER_USERNAME>/vehiculo-control-api:latest
+```
+
+Para ejecutar desde Docker Hub:
+
+```bash
+docker run -p 3000:3000 \
+  -e DB_HOST=your-db-host \
+  -e DB_NAME=vehiculo_control \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=your-password \
+  -e JWT_SECRET=your-secret \
+  <DOCKER_USERNAME>/vehiculo-control-api:latest
+```
+
+## CI/CD
+
+El proyecto incluye un pipeline de GitHub Actions (`.github/workflows/docker-publish.yml`) que:
+
+1. Construye la imagen Docker automáticamente en cada push a `main`
+2. Sube la imagen a Docker Hub
+3. Genera tags apropiados (latest, sha, version)
+4. Soporta múltiples plataformas (amd64, arm64)
+
+### Configuración del Pipeline
+
+Agregar los siguientes secrets en GitHub:
+- `DOCKER_USERNAME`: Tu usuario de Docker Hub
+- `DOCKER_PASSWORD`: Tu password o token de Docker Hub
+
 ## Roles y Permisos
 
 ### Operador
@@ -400,4 +357,3 @@ Según el plan de trabajo:
    - Para cambiar entre estos estados, debe pasar primero por "Disponible"
 3. **Mantenimiento de vehículos en uso**: No se puede iniciar mantenimiento en un vehículo que está "En uso"
 4. **Fechas de mantenimiento**: La fecha de fin debe ser posterior a la fecha de inicio
-

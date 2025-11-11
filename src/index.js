@@ -3,16 +3,20 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
 import sequelize, { testConnection, syncDatabase } from "./config/database.js";
 import routes from "./routes/index.js";
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
+import swaggerSpec from "./config/swagger.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "*",
@@ -22,6 +26,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", routes);
 
 app.use(notFound);
@@ -48,6 +53,7 @@ const startServer = async () => {
       console.log(`Servidor ejecutándose en puerto: ${PORT}`);
       console.log(`Entorno: ${process.env.NODE_ENV || "development"}`);
       console.log(`Base de datos: ${process.env.DB_NAME}`);
+      console.log(`Swagger UI disponible en: http://localhost:${PORT}/api-docs`);
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);
