@@ -4,6 +4,7 @@
  * Para ejecutar: npm test
  */
 
+import { describe, it } from '@jest/globals';
 import request from 'supertest';
 
 describe('Integration Tests - Autenticación', () => {

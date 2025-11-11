@@ -1,3 +1,4 @@
+import { jest, describe, beforeEach, it, expect } from '@jest/globals';
 import VehiculoService from '../../src/services/VehiculoService.js';
 
 /**

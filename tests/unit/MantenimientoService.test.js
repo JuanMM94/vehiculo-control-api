@@ -1,4 +1,17 @@
-import MantenimientoService from '../../src/services/MantenimientoService.js';
+import { jest, describe, beforeEach, it, expect } from '@jest/globals';
+
+// Mock EstadoVehiculo model to avoid database connection in unit tests
+jest.unstable_mockModule('../../src/models/index.js', () => ({
+  EstadoVehiculo: {
+    create: jest.fn(),
+  },
+  Vehiculo: {},
+  Mantenimiento: {},
+  Usuario: {},
+}));
+
+const { EstadoVehiculo } = await import('../../src/models/index.js');
+const MantenimientoService = (await import('../../src/services/MantenimientoService.js')).default;
 
 /**
  * Tests unitarios para MantenimientoService
@@ -26,6 +39,16 @@ describe('MantenimientoService', () => {
       findById: jest.fn(),
       updateEstado: jest.fn(),
     };
+
+    // Mock EstadoVehiculo.create
+    EstadoVehiculo.create.mockClear();
+    EstadoVehiculo.create.mockResolvedValue({
+      id: '789',
+      vehiculoId: '123',
+      estado: 'En mantenimiento',
+      fecha: new Date(),
+      observaciones: 'Inicio de mantenimiento',
+    });
 
     // Crear servicio con múltiples dependencias inyectadas
     mantenimientoService = new MantenimientoService(
