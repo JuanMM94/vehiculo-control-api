@@ -27,7 +27,7 @@ export const testConnection = async () => {
     console.log('✓ Database connection established successfully.');
     return true;
   } catch (error) {
-    console.error('✗ Unable to connect to the database:', error.message);
+    console.error('✗ Unable to connect to the database:', error);
     return false;
   }
 };
@@ -57,7 +57,8 @@ export const createDatabaseIfNotExists = async () => {
       console.log(`✓ Database '${dbName}' already exists.`);
     }
   } catch (error) {
-    console.error('✗ Error checking/creating database:', error.message);
+    console.error('✗ Error checking/creating database:', error);
+    throw error;
   } finally {
     await client.end();
   }
@@ -68,7 +69,7 @@ export const syncDatabase = async (options = {}) => {
     await sequelize.sync(options);
     console.log('✓ Database synchronized successfully.');
   } catch (error) {
-    console.error('✗ Error synchronizing database:', error.message);
+    console.error('✗ Error synchronizing database:', error);
     throw error;
   }
 };
