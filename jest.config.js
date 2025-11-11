@@ -10,4 +10,6 @@ export default {
   ],
   verbose: true,
   transform: {},
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testTimeout: 10000,
 };
