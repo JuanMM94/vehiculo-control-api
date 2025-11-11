@@ -4,7 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
-import sequelize, { testConnection, syncDatabase } from "./config/database.js";
+import sequelize, { testConnection, syncDatabase, createDatabaseIfNotExists } from "./config/database.js";
 import routes from "./routes/index.js";
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 import swaggerSpec from "./config/swagger.js";
@@ -34,6 +34,9 @@ app.use(errorHandler);
 
 const startServer = async () => {
   try {
+    console.log("Creando base de datos si no existe...");
+    await createDatabaseIfNotExists();
+
     console.log("Verificando conexión a la base de datos...");
     const connected = await testConnection();
 
@@ -51,7 +54,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Servidor ejecutándose en puerto: ${PORT}`);
-      console.log(`Entorno: ${process.env.NODE_ENV || "development"}`);
+      console.log(`Entorno: ${process.env.NODE_ENV || "production"}`);
       console.log(`Base de datos: ${process.env.DB_NAME}`);
       console.log(`Swagger UI disponible en: http://localhost:${PORT}/api-docs`);
     });
