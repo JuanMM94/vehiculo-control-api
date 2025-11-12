@@ -1,11 +1,12 @@
 import swaggerJsdoc from 'swagger-jsdoc';
+import { VERSION } from '../utils/version.js';
 
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'Vehicle Control API',
-      version: '1.0.0',
+      version: VERSION,
       description: 'API REST para control y gestión del estado de vehículos',
       contact: {
         name: 'Juan Martín Monasterio',

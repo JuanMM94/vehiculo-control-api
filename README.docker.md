@@ -1,52 +1,42 @@
 # Vehicle Control API
 
-REST API for vehicle control and management built with Node.js, Express, and PostgreSQL.
+API REST para control y gestión de vehículos construida con Node.js, Express y PostgreSQL.
 
-## Quick Start with Docker Compose
+## Inicio Rápido con Docker Compose
 
-The easiest way to run this application is with Docker Compose:
+La forma más fácil de ejecutar esta aplicación es con Docker Compose:
 
 ```bash
-# Download the production compose file
+# Descargar el archivo compose de producción
 curl -O https://raw.githubusercontent.com/JuanMM94/vehiculo-control-api/main/docker-compose.prod.yml
 
-# Start the application (API + PostgreSQL)
+# Iniciar la aplicación (API + PostgreSQL)
 docker compose -f docker-compose.prod.yml up -d
 ```
 
-This will:
-- Pull and start PostgreSQL 16
-- Pull and start the API on port 3000
-- Automatically create the database and tables
-- Set up networking between containers
+Esto hará lo siguiente:
+- Descargar e iniciar PostgreSQL 16
+- Descargar e iniciar la API en el puerto 3000
+- Crear automáticamente la base de datos y las tablas
+- Configurar la red entre contenedores
 
-## Access the Application
+## Acceso a la Aplicación
 
-- **API Base URL**: http://localhost:3000/api
-- **Swagger Documentation**: http://localhost:3000/api-docs
+- **URL Base de la API**: http://localhost:3000/api
+- **Documentación Swagger**: http://localhost:3000/api/api-docs
 
-## Required Environment Variables
+## Variables de Entorno Requeridas
 
-If you want to run the container individually (not recommended), you need to provide:
+Si deseas ejecutar el contenedor individualmente (no recomendado), debes proporcionar:
 
-- `DB_HOST` - PostgreSQL host (default: localhost)
-- `DB_PORT` - PostgreSQL port (default: 5432)
-- `DB_NAME` - Database name
-- `DB_USER` - Database user
-- `DB_PASSWORD` - Database password
-- `JWT_SECRET` - Secret key for JWT tokens
-- `PORT` - API port (default: 3000)
+- `DB_HOST` - Host de PostgreSQL (default: localhost)
+- `DB_PORT` - Puerto de PostgreSQL (default: 5432)
+- `DB_NAME` - Nombre de la base de datos
+- `DB_USER` - Usuario de la base de datos
+- `DB_PASSWORD` - Contraseña de la base de datos
+- `JWT_SECRET` - Clave secreta para tokens JWT
+- `PORT` - Puerto de la API (default: 3000)
 
-## Documentation
+## Documentación
 
-Full documentation available at: https://github.com/JuanMM94/vehiculo-control-api
-
-## Features
-
-- User authentication with JWT
-- Role-based authorization (Admin/Operator)
-- Vehicle management
-- Vehicle state tracking
-- Maintenance records
-- Complete OpenAPI/Swagger documentation
-- Automatic database creation and migrations
+Documentación completa disponible en: https://github.com/JuanMM94/vehiculo-control-api

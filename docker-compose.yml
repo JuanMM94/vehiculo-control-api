@@ -22,6 +22,7 @@ services:
   # Servicio de la API
   api:
     build: .
+    image: vehiculo-control-api
     container_name: vehiculo-control-api
     environment:
       NODE_ENV: development

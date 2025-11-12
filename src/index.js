@@ -8,6 +8,7 @@ import sequelize, { testConnection, syncDatabase, createDatabaseIfNotExists } fr
 import routes from "./routes/index.js";
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 import swaggerSpec from "./config/swagger.js";
+import { VERSION } from "./utils/version.js";
 
 dotenv.config();
 
@@ -26,7 +27,17 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Ruta raíz
+app.get("/", (req, res) => {
+  res.json({
+    mensaje: "Bienvenido a la API de Control de Vehículos",
+    version: VERSION,
+    documentacion: "/api/api-docs",
+    api: "/api",
+  });
+});
+
+app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", routes);
 
 app.use(notFound);
@@ -56,7 +67,7 @@ const startServer = async () => {
       console.log(`Servidor ejecutándose en puerto: ${PORT}`);
       console.log(`Entorno: ${process.env.NODE_ENV || "production"}`);
       console.log(`Base de datos: ${process.env.DB_NAME}`);
-      console.log(`Swagger UI disponible en: http://localhost:${PORT}/api-docs`);
+      console.log(`Swagger UI disponible en: http://localhost:${PORT}/api/api-docs`);
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error);

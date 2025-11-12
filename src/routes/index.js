@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { VERSION } from '../utils/version.js';
 import usuarioRoutes from './usuarioRoutes.js';
 import vehiculoRoutes from './vehiculoRoutes.js';
 import mantenimientoRoutes from './mantenimientoRoutes.js';
@@ -9,14 +10,14 @@ const router = Router();
 router.get('/', (req, res) => {
   res.json({
     mensaje: 'API de Control de Vehículos',
-    version: '1.0.0',
+    version: VERSION,
     endpoints: {
       usuarios: '/api/usuarios',
       vehiculos: '/api/vehiculos',
       mantenimientos: '/api/mantenimientos',
       historialEstados: '/api/estados',
     },
-    documentacion: 'Ver README.md para instrucciones de uso',
+    documentacion: '/api/api-docs',
   });
 });
 
